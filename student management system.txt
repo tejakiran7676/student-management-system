@@ -1,0 +1,80 @@
+import java.util.Scanner;
+
+class Student {
+    private static int idCounter = 10000;
+    private String name;
+    private String studentID;
+    private String courses = "";
+    private int balance = 0;
+    private static final int COURSE_COST = 500;
+
+    public Student(String name) {
+        this.name = name;
+        this.studentID = generateStudentID();
+    }
+
+    private String generateStudentID() {
+        return String.valueOf(idCounter++);
+    }
+
+    public void enroll(String course) {
+        courses += course + " ";
+        balance += COURSE_COST;
+    }
+
+    public void payTuition(int amount) {
+        balance -= amount;
+        System.out.println("Payment of $" + amount + " received.");
+    }
+
+    public void showStatus() {
+        System.out.println("Name: " + name);
+        System.out.println("Student ID: " + studentID);
+        System.out.println("Enrolled Courses: " + courses);
+        System.out.println("Balance: $" + balance);
+    }
+}
+
+public class StudentManagementSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter student name: ");
+        String name = scanner.nextLine();
+        
+        Student student = new Student(name);
+        
+        while (true) {
+            System.out.println("\n1. Enroll in a course");
+            System.out.println("2. Pay tuition");
+            System.out.println("3. Show status");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter course name: ");
+                    String course = scanner.nextLine();
+                    student.enroll(course);
+                    break;
+                case 2:
+                    System.out.print("Enter amount to pay: ");
+                    int amount = scanner.nextInt();
+                    student.payTuition(amount);
+                    break;
+                case 3:
+                    student.showStatus();
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
+}
